@@ -63,7 +63,7 @@ NOTE: This will be a callback function for the tasks below
 */
 
 function inning(/*Code Here*/){
-  return Math.floor(Math.random() * 3);
+  return Math.floor(Math.random() * 3); //Math.random() * 3 gives me a number between 0 and three, but not including three, so Math.floor will round these numbers down and give me 0, 1, or 2.
 }
 
 
@@ -81,8 +81,18 @@ Use the finalScore function below to do the following:
 }
 */ 
 
-function finalScore(/*code Here*/){
-  /*Code Here*/
+function finalScore(callback, numberOfInnings){
+  let finalScore = {
+    "Home": 0,
+    "Away": 0
+  } //this variable holds the object for the Home and Away scores.
+  for(let i = 1; i <= numberOfInnings; i++){
+    finalScore = {
+      "Home":callback() + finalScore["Home"],
+      "Away":callback() + finalScore["Away"]
+    }
+  } //This for loop adds a score to the finalScore variable for however many innings there are. I'm not sure if this is correct because I'm not exactly sure what step three wants. Does it want us to store the score for each inning after we update it?
+  return finalScore;
 }
 
 /* ⚾️⚾️⚾️ Task 4: getInningScore() ⚾️⚾️⚾️
@@ -90,9 +100,14 @@ Use the getInningScore() function below to do the following:
   1. Receive a callback function - you will pass in the inning function from task 2 as your argument 
   2. Return an object with a score for home and a score for away that populates from invoking the inning callback function */
 
-function getInningScore(/*Your Code Here */) {
-  /*Your Code Here */
-}
+function getInningScore(callback) {
+  return {
+    "Home": callback(),
+    "Away": callback()
+  }
+} //this function returns an object with a score when we invoke the inning function, but for some reason is doesn't seem right.
+
+getInningScore(inning)
 
 
 /* ⚾️⚾️⚾️ Task 5: scoreboard() ⚾️⚾️⚾️
@@ -136,10 +151,17 @@ Use the scoreboard function below to do the following:
 ]  
   */
 
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
-}
+ function scoreboard(callback1, callback2, numOfInnings) {
+  let innings = []; //an empty array for the strings
 
+  for(let i = 1; i <= numOfInnings; i++){
+    innings.push(`Inning ${[i]}: Away ${callback2()} - Home ${callback2()}`)
+    } //a for loop to create scores for each inning and push them into the empty array, but how do I differentiate between the away score and the home score in order to add them up for the final score?
+
+  innings.push(`Final Score: Away - Home`) //pushing the final score into the array, but how do I put the actual score inside of this?
+
+  return innings
+}
 
 
 
