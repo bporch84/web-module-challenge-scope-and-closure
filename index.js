@@ -28,11 +28,17 @@ console.log(processFirstItem(['foo','bar'],function(str){return str+str}));
   Study the code for counter1 and counter2, then answer the questions below.
   
   1. What is the difference between counter1 and counter2?
+
+  Counter one has a function nested inside of a function. Counter 2 has a function declaration and a separate function whil leaving the variable in the gloval scope.
   
   2. Which of the two uses a closure? How can you tell?
+
+  Counter two reaches outside of the function to the variable to add to the count, which I think is closure.
   
   3. In what scenario would the counter1 code be preferable? In what scenario would 
      counter2 be better?  
+
+  You'd used counter2 if you need to use count for other blocks of code.
 */
 
 // counter1 code
@@ -151,17 +157,27 @@ Use the scoreboard function below to do the following:
 ]  
   */
 
- function scoreboard(callback1, callback2, numOfInnings) {
-  let innings = []; //an empty array for the strings
+ function scoreboard(callback, cb, numOfInnings){
+  let scores = []
+  let homeCounter = 0
+  let awayCounter = 0
 
-  for(let i = 1; i <= numOfInnings; i++){
-    innings.push(`Inning ${[i]}: Away ${callback2()} - Home ${callback2()}`)
-    } //a for loop to create scores for each inning and push them into the empty array, but how do I differentiate between the away score and the home score in order to add them up for the final score?
-
-  innings.push(`Final Score: Away - Home`) //pushing the final score into the array, but how do I put the actual score inside of this?
-
-  return innings
+for(let i = 1; i <= numOfInnings; i++){
+  let result = callback(cb);
+  let formattedString = `Inning ${i}: Away ${result.Away} - Home ${result.Home}`;
+  scores.push(formattedString);
+  homeCounter = homeCounter + result.Home;
+  awayCounter = awayCounter + result.Away;
 }
+
+if(awayCounter === homeCounter){
+  scores.push(`This game will require extra innings: Away ${awayCounter} - Home ${homeCounter}`)
+} else scores.push(`Final Score: Away ${awayCounter} - Home ${homeCounter}`)
+
+  return scores
+}
+
+scoreboard(getInningScore, inning, 9)
 
 
 
